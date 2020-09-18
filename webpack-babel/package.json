@@ -1,0 +1,23 @@
+{
+  "name": "webpack-babel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "webpack --mode development"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-transform-arrow-functions": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "typescript": "^3.7.5",
+    "web-webpack-plugin": "^4.6.7",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
