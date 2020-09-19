@@ -29,7 +29,9 @@ module.exports = {
               name: 'prettier'
             },
             loader: 'prettierscript-loader'
-          },'html-loader','markdown-loader']
+          },
+          'html-loader',
+          'markdown-loader']
       },
       {
         test: /\.css$/,

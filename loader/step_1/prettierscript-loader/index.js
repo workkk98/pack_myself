@@ -5,7 +5,7 @@ hljs.registerLanguage('html', require('highlight.js/lib/languages/javascript'));
 module.exports = function (source) {  
   // 起步
   const options = loaderUtils.getOptions(this) // this指向webpack
-  // console.log(options) // 对象
+  console.log(options) // 对象
   console.log("source: ", source) // 经html-loader转换后 返回string
 
   // 捕获script
