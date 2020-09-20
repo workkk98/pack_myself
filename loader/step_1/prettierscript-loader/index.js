@@ -1,6 +1,6 @@
-const loaderUtils = require('loader-utils')
-const hljs = require('highlight.js')
-hljs.registerLanguage('html', require('highlight.js/lib/languages/javascript'));
+// const loaderUtils = require('loader-utils')
+// const hljs = require('highlight.js')
+// hljs.registerLanguage('html', require('highlight.js/lib/languages/javascript'));
 
 module.exports = function (source) {  
   // 起步
