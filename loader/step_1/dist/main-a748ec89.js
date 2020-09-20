@@ -63,7 +63,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3b3e18ded8286c6b2583";
+/******/ 	var hotCurrentHash = "a748ec89b3faace452c6";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -912,7 +912,7 @@ eval("var api = __webpack_require__(/*! ../node_modules/style-loader/dist/runtim
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"<div>带有prettierscript印记的标签</div><h3 id=\\\"自己制作一个loader\\\">自己制作一个loader</h3>\\n<pre><code class=\\\"language-js\\\">const name = &quot;实现一个webpack loader&quot;\\n\\nfunction prettierscript-loader(source) {\\n  console.log(typeof source) // string\\n  return source\\n}</code></pre>\\n\";\n\n//# sourceURL=webpack:///./src/example.md?");
+eval("module.exports = \"<h3 id=\\\"自己制作一个loader\\\">自己制作一个loader</h3>\\n<pre><code class=\\\"language-js\\\">const name = &quot;实现一个webpack loader&quot;\\n\\nfunction prettierscript-loader(source) {\\n  console.log(typeof source) // string\\n  return source\\n}</code></pre>\\n<p><script>document.addEventListener('DOMContentLoaded', (event) => {  console.log('触发');  document.querySelectorAll('pre code').forEach((block) => {    console.log(block);  });}); </script></p>\\n\";\n\n//# sourceURL=webpack:///./src/example.md?");
 
 /***/ }),
 
@@ -924,7 +924,7 @@ eval("module.exports = \"<div>带有prettierscript印记的标签</div><h3 id=\\
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./atom-one-dark.css */ \"./src/atom-one-dark.css\");\n/* harmony import */ var _atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0__);\nconst name = \"hello world\"\nconst code = __webpack_require__(/*! ./example.md */ \"./src/example.md\")\n\n\nfunction writeMd(code) {\n  const div = document.createElement('div');\n  div.innerHTML = code\n  document.body.appendChild(div)\n}\n\nwriteMd(code)\n\nwindow.addEventListener('load', function () {\n  console.log('onload');\n})\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./atom-one-dark.css */ \"./src/atom-one-dark.css\");\n/* harmony import */ var _atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_atom_one_dark_css__WEBPACK_IMPORTED_MODULE_0__);\nconst code = __webpack_require__(/*! ./example.md */ \"./src/example.md\");\n\n\nvar pattern = /<script>(.*)<\\/script>/;\nfunction writeMd(code) {\n\n  var matchArr = code.match(pattern);\n  var scriptStr = matchArr[1];\n  var fun = new Function(scriptStr)\n\n  fun()\n\n  const div = document.createElement('div');\n  div.innerHTML = code\n  document.body.appendChild(div)\n}\n\nwriteMd(code)\n\nwindow.addEventListener('load', function () {\n  console.log('onload');\n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

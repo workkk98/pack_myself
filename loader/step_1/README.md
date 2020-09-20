@@ -4,6 +4,8 @@ loader实质上就是个函数，将传入的内容，编译后返回。
 
 函数内的this指向webpack对象。
 
+> 在使用loader解析字符串时，注意单双引号转义的问题。
+
 ### loader.options
 
 对一个文件转换可能需要多个loader，每个loader都可以配置一些内容，例如css-loader可以配置是否对url函数的启用。如何拿到对应的options呢？

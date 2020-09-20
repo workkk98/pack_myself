@@ -8,3 +8,4 @@ function prettierscript-loader(source) {
   return source
 }
 ```
+// hljs
