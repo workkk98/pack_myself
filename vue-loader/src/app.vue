@@ -1,5 +1,7 @@
 <template>
-  <div>app4</div>
+  <div>app4
+    <slot></slot>
+  </div>
 </template>
 
 <script>
