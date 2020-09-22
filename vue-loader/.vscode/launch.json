@@ -5,13 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "inspect webpack",
+      "request": "launch",
+      "runtimeArgs": [
+        "run",
+        "watch"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "pwa-node"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${file}"
+      "program": "${workspaceFolder}/index.js"
     }
   ]
 }

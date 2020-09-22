@@ -1,5 +1,6 @@
 <template>
-  <div>app4
+  <div>
+    app5
     <slot></slot>
   </div>
 </template>
