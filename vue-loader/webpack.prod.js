@@ -13,6 +13,9 @@ module.exports = merge.merge(common, {
     contentBase: './dist'
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      title: '深入浅出vue-loader',
+      template: './index.html'
+    })
   ]
 });
