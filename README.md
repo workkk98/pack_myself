@@ -64,7 +64,7 @@ const webpack = (options, callback) => {
 
 #### compilation负责 编译和构建过程
 
-```
+```js
 class Compilation extends Tapable {
 	constructor(compiler) {
 		super();
