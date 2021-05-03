@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("// define plugin\n\nif (true) {\n  console.log(true);\n}\n\nif (false) {}\n\nconsole.log(\"5fa3b9\");\nconsole.log(1+1);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("// define plugin\n\nif (true) {\n  console.log(true);\n}\n\nif (false) {}\n\nconsole.log(\"5fa3b9\");\nconsole.log(1+1);\n\n// 定义一个对象全局变量\nif (true) {\n  console.log(\"production\");\n}\n\n// 访问一个对象中的某个属性\nif (false) {}\n\nif (true) {\n  console.log('typeof mobile');\n}\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
