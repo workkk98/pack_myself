@@ -1,0 +1,25 @@
+{
+  "name": "ds-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev-hot": "webpack serve --hot --open",
+    "dev": "webpack serve --open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^5.3.1",
+    "vue-loader": "^15.9.7",
+    "vue-loader-plugin": "^1.3.0",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^5.31.2",
+    "webpack-cli": "4.6.0",
+    "webpack-dev-server": "3.11.2"
+  },
+  "dependencies": {
+    "vue": "^2.6.12"
+  }
+}
