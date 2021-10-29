@@ -6,6 +6,14 @@ loader实质上就是个函数，将传入的内容，编译后返回。
 
 > 在使用loader解析字符串时，注意单双引号转义的问题。
 
+## 如何调试
+
+写一个demo的时候我们可以用resolveLoader这个配置来指定查找loader的文件夹。
+
+## loader
+
+在loader执行编译之前有dobuild，beforeLoaders（这个hook没有写到文档上很奇怪）等hooks。
+
 ### loader.options
 
 对一个文件转换可能需要多个loader，每个loader都可以配置一些内容，例如css-loader可以配置是否对url函数的启用。如何拿到对应的options呢？
