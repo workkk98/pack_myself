@@ -24,7 +24,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name]-[hash:8].css'
+      filename: '[name]-[contenthash:8].css'
     })
   ],
   resolve: {

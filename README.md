@@ -1,11 +1,96 @@
 # webpack
 
+对webpack还是非常好奇，所以带着一点点的基础重新开始学习。这次从v5版本开始。
 
-
-#### webpack介绍
+## webpack介绍
 webpack本质上是个事件流的机制，它的工作流程就是将各个插件串联起来。
 webpack中**最核心的负责编译的Compiler和负责创建bundles的Compilation都是Tapable的实例。**
 [tapable](https://github.com/webpack/tapable)
+
+
+### webpack可执行文件
+
+这个文件会检查下webpack-cli是否安装， 最终还是会收敛到webpack-cli做一个处理。值得学习的地方就在于这个交互式的安装webpack-cli的代码，后面可以了解下。
+
+```js
+	const questionInterface = readLine.createInterface({
+		input: process.stdin,
+		output: process.stderr
+	});
+
+	// In certain scenarios (e.g. when STDIN is not in terminal mode), the callback function will not be
+	// executed. Setting the exit code here to ensure the script exits correctly in those cases. The callback
+	// function is responsible for clearing the exit code if the user wishes to install webpack-cli.
+	process.exitCode = 1;
+	questionInterface.question(question, answer => {
+		questionInterface.close();
+
+		const normalizedAnswer = answer.toLowerCase().startsWith("y");
+
+		if (!normalizedAnswer) {
+			console.error(
+				"You need to install 'webpack-cli' to use webpack via CLI.\n" +
+					"You can also install the CLI manually."
+			);
+
+			return;
+		}
+		process.exitCode = 0;
+
+		console.log(
+			`Installing '${
+				cli.package
+			}' (running '${packageManager} ${installOptions.join(" ")} ${
+				cli.package
+			}')...`
+		);
+
+		runCommand(packageManager, installOptions.concat(cli.package))
+			.then(() => {
+				runCli(cli);
+			})
+			.catch(error => {
+				console.error(error);
+				process.exitCode = 1;
+			});
+	});
+```
+
+
+### webpack核心(lib/webpack.js)
+
+
+createCompiler
+```js
+const createCompiler = rawOptions => {
+	const options = getNormalizedWebpackOptions(rawOptions);
+	applyWebpackOptionsBaseDefaults(options);
+	const compiler = new Compiler(options.context, options);
+	new NodeEnvironmentPlugin({
+		infrastructureLogging: options.infrastructureLogging
+	}).apply(compiler);
+	if (Array.isArray(options.plugins)) {
+		for (const plugin of options.plugins) {
+			if (typeof plugin === "function") {
+				plugin.call(compiler, compiler);
+			} else {
+				plugin.apply(compiler);
+			}
+		}
+	}
+	applyWebpackOptionsDefaults(options);
+	compiler.hooks.environment.call();
+	compiler.hooks.afterEnvironment.call();
+
+	// 可以看下这个process的调用，在这一步，webpack加上了很多的plugin（所以webpack这个架构是非常灵活的）
+	// 举几个例子，例如EntryOptionPlugin、ExternalPlugin、devtoolPlugin、HarmonyModulesPlugin、SplitChunksPlugin
+	// start/node_modules/webpack/lib/WebpackOptionsApply.js
+	new WebpackOptionsApply().process(options, compiler);
+	compiler.hooks.initialize.call();
+	return compiler;
+};
+```
+
 
 #### tapable
 
@@ -62,146 +147,23 @@ const webpack = (options, callback) => {
 * emit 输出到dist目录
 
 
-#### compilation负责 编译和构建过程
+### compilation 一次构建时的对象
 
+#### entries（Map实例）
+
+每次构建时一个entry对应一个entryData
 ```js
-class Compilation extends Tapable {
-	constructor(compiler) {
-		super();
-		this.hooks = {
-			// hooks
-		};
-		// ...
-		this.compiler = compiler;
-		// ...
-		// template
-		this.mainTemplate = new MainTemplate(this.outputOptions);
-		this.chunkTemplate = new ChunkTemplate(this.outputOptions);
-		this.hotUpdateChunkTemplate = new HotUpdateChunkTemplate(
-			this.outputOptions
-		);
-		this.runtimeTemplate = new RuntimeTemplate(
-			this.outputOptions,
-			this.requestShortener
-		);
-		this.moduleTemplates = {
-			javascript: new ModuleTemplate(this.runtimeTemplate),
-			webassembly: new ModuleTemplate(this.runtimeTemplate)
-		};
-
-		// 构建生成的资源
-		this.chunks = [];
-		this.chunkGroups = [];
-		this.modules = [];
-		this.additionalChunkAssets = [];
-		this.assets = {};
-		this.children = [];
-		// ...
+const entryData = {
+	dependencies: [],
+	includeDependencies: [],
+	options: {
+		name: undefined,
+		...options
 	}
-	// 
-	buildModule(module, optional, origin, dependencies, thisCallback) {
-		// ...
-		// 调用module.build方法进行编译代码，build中 其实是利用acorn编译生成AST
-		this.hooks.buildModule.call(module);
-		module.build(/**param*/);
-	}
-	// 将模块添加到列表中，并编译模块
-	_addModuleChain(context, dependency, onModule, callback) {
-		    // ...
-		    // moduleFactory.create创建模块，这里会先利用loader处理文件，然后生成模块对象
-		    moduleFactory.create(
-				{
-					contextInfo: {
-						issuer: "",
-						compiler: this.compiler.name
-					},
-					context: context,
-					dependencies: [dependency]
-				},
-				(err, module) => {
-					const addModuleResult = this.addModule(module);
-					module = addModuleResult.module;
-					onModule(module);
-					dependency.module = module;
-					
-					// ...
-					// 调用buildModule编译模块
-					this.buildModule(module, false, null, null, err => {});
-				}
-		});
-	}
-	// 添加入口模块，开始编译&构建
-	addEntry(context, entry, name, callback) {
-		// ...
-		this._addModuleChain( // 调用_addModuleChain添加模块
-			context,
-			entry,
-			module => {
-				this.entries.push(module);
-			},
-			// ...
-		);
-	}
-
-	
-	seal(callback) {
-		this.hooks.seal.call();
-
-		// ...
-		const chunk = this.addChunk(name);
-		const entrypoint = new Entrypoint(name);
-		entrypoint.setRuntimeChunk(chunk);
-		entrypoint.addOrigin(null, name, preparedEntrypoint.request);
-		this.namedChunkGroups.set(name, entrypoint);
-		this.entrypoints.set(name, entrypoint);
-		this.chunkGroups.push(entrypoint);
-
-		GraphHelpers.connectChunkGroupAndChunk(entrypoint, chunk);
-		GraphHelpers.connectChunkAndModule(chunk, module);
-
-		chunk.entryModule = module;
-		chunk.name = name;
-
-		 // ...
-		this.hooks.beforeHash.call();
-		this.createHash();
-		this.hooks.afterHash.call();
-		this.hooks.beforeModuleAssets.call();
-		this.createModuleAssets();
-		if (this.hooks.shouldGenerateChunkAssets.call() !== false) {
-			this.hooks.beforeChunkAssets.call();
-			this.createChunkAssets();
-		}
-		// ...
-	}
-
-
-	createHash() {
-		// ...
-	}
-	
-	// 生成 assets 资源并 保存到 Compilation.assets 中 给webpack写插件的时候会用到
-	createModuleAssets() {
-		for (let i = 0; i < this.modules.length; i++) {
-			const module = this.modules[i];
-			if (module.buildInfo.assets) {
-				for (const assetName of Object.keys(module.buildInfo.assets)) {
-					const fileName = this.getPath(assetName);
-					this.assets[fileName] = module.buildInfo.assets[assetName]; 
-					this.hooks.moduleAsset.call(module, fileName);
-				}
-			}
-		}
-	}
-
-	createChunkAssets() {
-	 // ...
-	}
-}
-
+};
 ```
 
-看来这块骨头很难啃，慢慢来😩
+includeDependencies不太清楚是啥意思。但是dependencies就是指本次入口的依赖，包括自己本身。
 
 #### 参考链接
 

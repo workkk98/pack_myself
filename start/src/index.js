@@ -23,7 +23,6 @@ function component(today) {
 document.body.appendChild(component(date.date));
 
 // if (module.hot) {
-//   // 因为热更新刷新页面，所以这段话在浏览器控制台马上消失
 //   module.hot.accept('./print.js', function (params) {
 //     console.log('Accepting the updated printMe module!');
 //     printMe()

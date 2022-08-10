@@ -1,6 +1,6 @@
-import { cube } from './math';
+// import { cube } from './math';
 
-cube(2);
+// cube(2);
 
 // function component() {
 //   const element = document.createElement('pre');
@@ -13,4 +13,9 @@ cube(2);
 
 //   return element;
 // }
-// document.body.appendChild(component());
+// document.body.appendChild(component())
+
+
+
+// 写一个没有dependency的入口文件
+document.body = 'hello world'
