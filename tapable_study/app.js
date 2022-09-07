@@ -1,6 +1,9 @@
 const {
   SyncHook,
-  AsyncParallelHook
+  SyncBailHook,
+  AsyncParallelHook,
+  SyncWaterfallHook,
+  SyncLoopHook
 } = require('tapable')
 
 // console.log(Object.keys(tapable))
@@ -26,7 +29,13 @@ class Car {
     this.hooks = {
       accelerate: new SyncHook(['newSpeed','unit']), // 只是调用"消费者"时表明使用参数的长度？
       brake: new SyncHook(),
-      pollOver: new AsyncParallelHook(['time' , 'postion'])
+      pollOver: new AsyncParallelHook(['time' , 'position']),
+      // 熔断
+      askQuestion: new SyncBailHook(['question']),
+      // waterfall 需要上一个plugin的结果的
+      takeShower: new SyncWaterfallHook(['price']),
+      // sync loop感觉没啥用，因为这里一定是同步的
+      sell: new SyncLoopHook(['price'])
     }
   }
 
@@ -47,6 +56,10 @@ class Car {
     this.hooks.pollOver.promise(time,positions).then(function () {
       console.log('promise callback')
     })
+  }
+
+  startAskQuestion() {
+    this.hooks.askQuestion.call('哪里能买到M4呀')
   }
 }
 
@@ -80,12 +93,27 @@ BMW.hooks.pollOver.tapPromise("EndPollOberPlugins" , (time,positions) => {
   })
 })
 
+BMW.hooks.askQuestion.tap('hangzhou', (question) => {
+  console.log('hangzhou askQuestion')
+  return undefined
+})
+
+BMW.hooks.askQuestion.tap('beijing', () => {
+  console.log('beijing askQuestion')
+  return 'M4国内只有本店有'
+})
+
+BMW.hooks.askQuestion.tap('shanghai', () => {
+  console.log('shanghai askQuestion')
+  return 'M4国内只有beijing有'
+})
+
+
 BMW.break()
 BMW.accelerate(60,'mph')
 
 BMW.pollOver(1000,'my home')
 
+BMW.startAskQuestion()
 
-
-
-
+exports.BMW = BMW
