@@ -15,7 +15,11 @@
 // }
 // document.body.appendChild(component())
 
+class Foo extends React.Component {
 
+}
+
+console.log('Foo', new Foo)
 
 // 写一个没有dependency的入口文件
 document.body = 'hello world'

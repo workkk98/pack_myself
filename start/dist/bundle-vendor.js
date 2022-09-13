@@ -1,0 +1,2 @@
+/*! For license information please see bundle-vendor.js.LICENSE.txt */
+(self.webpackChunkstart=self.webpackChunkstart||[]).push([["vendor"],{"./src/like-react.js":()=>{}},s=>{s(s.s="./src/like-react.js")}]);

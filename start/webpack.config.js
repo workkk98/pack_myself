@@ -1,12 +1,22 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map', // 打开工具 查看错误行数
   context: __dirname, // 整个上下文的路径
-  entry: './src/tree-shake.js',
+  entry: {
+    main: {
+      import: './src/tree-shake.js',
+      runtime: 'common-runtime'
+    },
+    vendor: {
+      import: './src/like-react.js',
+      runtime: 'common-runtime'
+    }
+  },
   output: {
     filename: 'bundle-[name].js',
     path: path.resolve(__dirname , './dist'),
@@ -25,7 +35,8 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash:8].css'
-    })
+    }),
+    new HtmlWebpackPlugin()
   ],
   resolve: {
     alias: {
