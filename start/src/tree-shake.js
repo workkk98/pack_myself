@@ -1,6 +1,6 @@
-// import { cube } from './math';
+import { cube } from './math';
 
-// cube(2);
+cube(2);
 
 // function component() {
 //   const element = document.createElement('pre');

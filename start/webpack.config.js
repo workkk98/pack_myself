@@ -12,10 +12,10 @@ module.exports = {
       import: './src/tree-shake.js',
       runtime: 'common-runtime'
     },
-    vendor: {
-      import: './src/like-react.js',
-      runtime: 'common-runtime'
-    }
+    // vendor: {
+    //   import: './src/like-react.js',
+    //   runtime: 'common-runtime'
+    // }
   },
   output: {
     filename: 'bundle-[name].js',
@@ -36,7 +36,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash:8].css'
     }),
-    new HtmlWebpackPlugin()
+    // new HtmlWebpackPlugin()
   ],
   resolve: {
     alias: {
