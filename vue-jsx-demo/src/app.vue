@@ -13,6 +13,7 @@ export default {
         }
       },
       render() {
+        // const h = this.$createElement
         return <div>Hello World!</div>
       }
     }
