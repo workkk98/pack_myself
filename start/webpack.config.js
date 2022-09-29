@@ -10,7 +10,7 @@ module.exports = {
   entry: {
     main: {
       import: './src/tree-shake.js',
-      runtime: 'common-runtime'
+      // runtime: 'common-runtime'
     },
     // vendor: {
     //   import: './src/like-react.js',
@@ -20,6 +20,7 @@ module.exports = {
   output: {
     filename: 'bundle-[name].js',
     path: path.resolve(__dirname , './dist'),
+    clean: true,
     // chunkFilename: '[name]-chunk-[id]'
   },
   module: {
@@ -46,6 +47,7 @@ module.exports = {
   // tree-shake必须开启usedExports
   optimization: {
     usedExports: true,
-    minimize: true
+    minimize: true,
+    // splitChunks: false,
   }
 }

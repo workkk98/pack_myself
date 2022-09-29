@@ -1,5 +1,4 @@
 import { cube } from './math';
-
 cube(2);
 
 // function component() {
@@ -23,3 +22,11 @@ console.log('Foo', new Foo)
 
 // 写一个没有dependency的入口文件
 document.body = 'hello world'
+
+async function insertDynamicComponent() {
+  const components = (await import('./dynamic-component')).default
+  window.components = components
+  return components
+}
+
+insertDynamicComponent()
