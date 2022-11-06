@@ -8,7 +8,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/app.vue'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'name-[hash-8].js'
+    filename: '[name:6]-[contenthash:8].js'
   },
   module: {
     rules: [
@@ -17,22 +17,30 @@ module.exports = {
         loader: 'vue-loader'
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              // localIdentName: '[local]_[hash:base64:8]',
+            }
+          }
         ]
       },
       {
         resourceQuery: /blockType=markdown/,
-        loader: [
-          {
+        use: [
+         {
             options: {
               name: 'prettier'
             },
             loader: 'prettierscript-loader'
           },
-          'html-loader','markdown-loader']
+          'html-loader',
+          'markdown-loader'
+        ]
       }
     ]
   },

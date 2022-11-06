@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="$style.container">
     <p>基础的计数器：{{count}}</p>
     <button @click="count++">count+</button>
   </div>
@@ -16,8 +16,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style module scoped>
+.container {
+  width: 200px;
+}
 </style>
 
 <markdown>
