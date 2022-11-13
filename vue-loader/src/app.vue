@@ -1,11 +1,12 @@
 <template>
   <div :class="$style.container">
-    <p>基础的计数器：{{count}}</p>
+    <p class="foo">基础的计数器：{{count}}</p>
     <button @click="count++">count+</button>
   </div>
 </template>
 
 <script>
+import './index.zss'
 export default {
   name: 'app',
   data () {
