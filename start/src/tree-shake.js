@@ -1,5 +1,5 @@
-import { cube } from './math';
-cube(2);
+// import { cube } from './math';
+// cube(2);
 
 // function component() {
 //   const element = document.createElement('pre');
@@ -29,4 +29,11 @@ async function insertDynamicComponent() {
   return components
 }
 
+async function insertDynamicComponent2() {
+  const components = (await import('./dynamic-component-2')).default
+  window.components = components
+  return components
+}
+
 insertDynamicComponent()
+insertDynamicComponent2()
