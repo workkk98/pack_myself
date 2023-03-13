@@ -1,4 +1,5 @@
 import { cube } from './math';
+import { get } from 'lodash'
 cube(2);
 
 // function component() {
@@ -14,16 +15,11 @@ cube(2);
 // }
 // document.body.appendChild(component())
 
-class Foo extends React.Component {
-
-}
-
-console.log('Foo', new Foo)
 const mode = process.env.NODE_ENV
 document.title = mode
 
 // 写一个没有dependency的入口文件
-document.body = 'hello world'
+document.body.textContent = 'hello world'
 
 async function insertDynamicComponent() {
   const components = (await import('./dynamic-component')).default
@@ -36,6 +32,8 @@ async function insertDynamicComponent2() {
   window.components = components
   return components
 }
+
+console.log('get strange value', get(window, 'strange.value'))
 
 insertDynamicComponent()
 insertDynamicComponent2()

@@ -4,18 +4,18 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
-  devtool: 'inline-source-map', // 打开工具 查看错误行数
+  mode: process.env.NODE_ENV,
+  devtool: 'eval-source-map', // 打开工具 查看错误行数
   context: __dirname, // 整个上下文的路径
   entry: {
     main: {
       import: './src/tree-shake.js',
-      // runtime: 'common-runtime'
+      runtime: 'common-runtime'
     },
-    // vendor: {
-    //   import: './src/like-react.js',
-    //   runtime: 'common-runtime'
-    // }
+    vendor: {
+      import: './src/like-react.js',
+      runtime: 'common-runtime'
+    }
   },
   output: {
     filename: 'bundle-[name].js',
@@ -36,7 +36,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash:8].css'
     }),
-    // new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      filename: 'assets/[contenthash].html'
+    })
   ],
   resolve: {
     alias: {
@@ -49,15 +51,14 @@ module.exports = {
     minimize: false,
     // splitChunks: false,
     splitChunks: {
+      chunks: 'all',
+      minSize: 0,
+      minChunks: 1,
       cacheGroups: {
-        math: {
-          chunks: 'all',
-          minSize: 0,
-          minSizeReduction: 0,
-          minChunks: 2,
-          enforce: true,
+        Experience_Defined_Cache_Group_Lodash: {
+          test: /[\\/]lodash|lodash-es[\\/]/,
           reuseExistingChunk: true,
-          priority: 0,
+          filename: 'js/lodash.js'
         }
       }
     }
