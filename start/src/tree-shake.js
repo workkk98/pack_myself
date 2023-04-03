@@ -1,6 +1,12 @@
 import { cube } from './math';
 import { get } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 cube(2);
+
+const foo = cloneDeep({
+  foo: [{ a: 'a' }]
+})
+console.log(foo)
 
 // function component() {
 //   const element = document.createElement('pre');

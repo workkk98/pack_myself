@@ -15,6 +15,9 @@ module.exports = {
     vendor: {
       import: './src/like-react.js',
       runtime: 'common-runtime'
+    },
+    foo: {
+      import: './src/foo.js'
     }
   },
   output: {
@@ -37,6 +40,7 @@ module.exports = {
       filename: '[name]-[contenthash:8].css'
     }),
     new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'assets/index.html'),
       filename: 'assets/[contenthash].html'
     })
   ],
@@ -45,22 +49,25 @@ module.exports = {
       assets: '../assets/'
     }
   },
+  externals: {
+    lodash: '_'
+  },
   // tree-shake必须开启usedExports
   optimization: {
     usedExports: true,
     minimize: false,
     // splitChunks: false,
-    splitChunks: {
-      chunks: 'all',
-      minSize: 0,
-      minChunks: 1,
-      cacheGroups: {
-        Experience_Defined_Cache_Group_Lodash: {
-          test: /[\\/]lodash|lodash-es[\\/]/,
-          reuseExistingChunk: true,
-          filename: 'js/lodash.js'
-        }
-      }
-    }
+    // splitChunks: {
+    //   chunks: 'all',
+    //   minSize: 0,
+    //   minChunks: 1,
+    //   cacheGroups: {
+    //     Experience_Defined_Cache_Group_Lodash: {
+    //       test: /[\\/]lodash|lodash-es[\\/]/,
+    //       reuseExistingChunk: true,
+    //       filename: 'js/lodash.js'
+    //     }
+    //   }
+    // }
   }
 }
